@@ -1,0 +1,9 @@
+# Este é um arquivo de exemplo. 
+# Para rodar o projeto, duplique este arquivo e renomeie para .env
+N8N_USER=admin
+N8N_PASSWORD=1234
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=1234
+POSTGRES_DB=database
+RABBITMQ_USER=admin
+RABBITMQ_PASSWORD=1234
