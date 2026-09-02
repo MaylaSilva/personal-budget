@@ -1,7 +1,7 @@
 #user and passwords is on env file, be sure you'd follow README instructions
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:17.11'
     environment:
       - 'POSTGRES_DB=${POSTGRES_DB}'
       - 'POSTGRES_USER=${POSTGRES_USER}'

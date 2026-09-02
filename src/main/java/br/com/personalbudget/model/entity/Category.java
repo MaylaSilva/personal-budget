@@ -1,21 +1,21 @@
-package br.com.personalbudget.model;
-
-import java.util.List;
+package br.com.personalbudget.model.entity;
 
 import br.com.personalbudget.model.base.BasicRegistration;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Entity
 @Table(name="category")
+@Getter
+@Setter
 public class Category extends BasicRegistration{
-    @OneToMany(mappedBy="category")
-    private List<Transaction> transactions;
+    @Column (name = "color", nullable = false)
+    private String color;
 
-    @OneToMany(mappedBy="category")
-    private List<Budget> budgets;
-
-    @OneToMany(mappedBy="category")
-    private List<Vendor> vendors;
+    @Column (name = "icon", nullable = false)
+    private String icon;
 }

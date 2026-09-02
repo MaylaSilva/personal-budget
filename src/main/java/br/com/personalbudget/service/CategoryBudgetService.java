@@ -1,5 +1,5 @@
-package br.com.personalbudget.repository;
+package br.com.personalbudget.service;
 
-public class CategoryRepository {
+public class CategoryBudgetService {
 
 }

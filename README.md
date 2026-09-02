@@ -7,7 +7,7 @@ This project uses Docker to assure the enviroment runs consistently across any c
 
 ## 1. Requirements
 - Docker Desktop Installed
-- Java 17+ Installed
+- Java 21+ Installed
 
 ## 2. Enviroment Settings
 For security reasons, sensitive credentials are NOT stored in the repository.

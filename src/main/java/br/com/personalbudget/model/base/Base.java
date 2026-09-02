@@ -22,6 +22,9 @@ public abstract class Base {
     @Column(updatable=false)
     private OffsetDateTime createdAt;
 
+    @Column
+    private OffsetDateTime updatedAt;
+
     @PrePersist
     protected void onCreate (){
         this.createdAt= OffsetDateTime.now();

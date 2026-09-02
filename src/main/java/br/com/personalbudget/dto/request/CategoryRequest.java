@@ -1,5 +1,5 @@
-package br.com.personalbudget.repository;
+package br.com.personalbudget.dto.request;
 
-public class CategoryRepository {
+public class CategoryRequest {
 
 }
