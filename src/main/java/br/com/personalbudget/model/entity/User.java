@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class User extends Base{
 
-    @Column(name="name")
+    @Column(name="name", nullable = false)
     private String name;
 
     @Column(name = "emailAddress",unique=true, nullable=false)
