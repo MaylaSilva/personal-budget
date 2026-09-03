@@ -20,18 +20,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Transaction extends Base{
-    @Column (name = "date", nullable = false)
-    private Date date;
-
-    @Column (name = "amount", nullable = false, precision = 15, scale = 2)
-    private BigDecimal amount;
-
-    @Column (name = "description")
-    private String description;
-
-    @Column (name = "observation")
-    private String observation;
-
     @ManyToOne
     @JoinColumn (name="categorybudget_id")
     private CategoryBudget category;
@@ -51,4 +39,20 @@ public class Transaction extends Base{
     @Enumerated(EnumType.STRING)
     @Column(name="type", nullable = false)
     private TypeTransaction typeTransaction;
+
+    @Column (name = "date", nullable = false)
+    private Date date;
+    
+    @Column (name = "competence", nullable=false)
+    private Date competence;
+
+    @Column (name = "amount", nullable = false, precision = 15, scale = 2)
+    private BigDecimal amount;
+
+    @Column (name = "description")
+    private String description;
+
+    @Column (name = "observation")
+    private String observation;
+
 }
