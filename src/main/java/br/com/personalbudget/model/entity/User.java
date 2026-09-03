@@ -26,4 +26,7 @@ public class User extends Base{
 
     @OneToMany(mappedBy="user")
     private List<MonthlyBudget> monthlyBudgets;
+
+    @OneToMany(mappedBy="user")
+    private List<Account> accounts;
 }
