@@ -1,5 +1,11 @@
 package br.com.personalbudget.service;
 
-public class MonthlyBudgetService {
+import org.springframework.stereotype.Service;
+import br.com.personalbudget.repository.MonthlyBudgetRepository;
+import lombok.RequiredArgsConstructor;
 
+@Service
+@RequiredArgsConstructor
+public class MonthlyBudgetService {
+    private final MonthlyBudgetRepository monthlyBudgetRepository;
 }

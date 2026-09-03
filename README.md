@@ -30,3 +30,4 @@ Once the containers are running, the services will be available at:
 - UUID over Incremental ID: I chose to use UUIDs instead of auto-incrementing IDis to ensure identifier immutability and prevent data exposure via URL (mitigating ID Enumeration Attack);
 - Abstract Base Classes: I implemented a hierarchy of abstract classes to standardize ID generation and basic registration fields. This ensures a consistent default for all entities and separates nominative records (Users, Vendors), from financial transaction data;
 - Time Zone Integrity: Instead of local timestamps, I used OffsetDateTime to audit creation dates. This ensures data integrity and avoids ambiguity across different time zones, which is critical requirement for financial systems.
+- Why PostgreSQL? I needed a DB that I can trust, with ACID, supports MVCC, data types and because this DB is one of the most used on companies.
