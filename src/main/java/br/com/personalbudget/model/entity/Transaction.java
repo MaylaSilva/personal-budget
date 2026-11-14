@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import br.com.personalbudget.model.base.Base;
 import br.com.personalbudget.model.enums.CreditDebit;
+import br.com.personalbudget.model.enums.TypeTransaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -38,6 +39,10 @@ public class Transaction extends Base{
     @Enumerated(EnumType.STRING)
     @Column(name="creditDebit", nullable = false)
     private CreditDebit creditDebit;
+
+    @Enumerated (EnumType.STRING)
+    @Column (name="type", nullable=false)
+    private TypeTransaction typeTransaction;
 
     @Column (name = "purchaseDate", nullable = false)
     private Date purchaseDate;
