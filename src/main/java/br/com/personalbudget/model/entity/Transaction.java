@@ -1,10 +1,13 @@
 package br.com.personalbudget.model.entity;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.YearMonth;
+
+import org.springframework.transaction.TransactionStatus;
 
 import br.com.personalbudget.model.base.Base;
 import br.com.personalbudget.model.enums.CreditDebit;
-import br.com.personalbudget.model.enums.TypeTransaction;
+import br.com.personalbudget.model.enums.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,19 +24,19 @@ import lombok.Setter;
 @Setter
 public class Transaction extends Base{
     @ManyToOne
-    @JoinColumn (name="categorybudget_id")
-    private CategoryBudget category;
+    @JoinColumn (name="category_id", nullable = false)
+    private Category category;
 
     @ManyToOne
-    @JoinColumn (name="vendor_id")
+    @JoinColumn (name="vendor_id", nullable = false)
     private Vendor vendor;
 
     @ManyToOne
-    @JoinColumn (name="user_id")
+    @JoinColumn (name="user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn (name="account")
+    @JoinColumn (name="account_id", nullable = false)
     private Account account;
 
     @Enumerated(EnumType.STRING)
@@ -42,13 +45,13 @@ public class Transaction extends Base{
 
     @Enumerated (EnumType.STRING)
     @Column (name="type", nullable=false)
-    private TypeTransaction typeTransaction;
+    private TransactionType transactionType;
 
     @Column (name = "purchaseDate", nullable = false)
-    private Date purchaseDate;
+    private LocalDate purchaseDate;
     
-    @Column (name = "competence", nullable=false)
-    private Date competence;
+    @Column (name = "competence")
+    private YearMonth competence;
 
     @Column (name = "amount", nullable = false, precision = 15, scale = 2)
     private BigDecimal amount;
@@ -58,5 +61,9 @@ public class Transaction extends Base{
 
     @Column (name = "observation")
     private String observation;
+
+    @Column (name="transactionStatus")
+    private TransactionStatus transactionStatus;
+    
 
 }

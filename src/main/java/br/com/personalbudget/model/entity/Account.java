@@ -3,7 +3,7 @@ package br.com.personalbudget.model.entity;
 import java.math.BigDecimal;
 
 import br.com.personalbudget.model.base.BasicRegistration;
-import br.com.personalbudget.model.enums.TypeTransaction;
+import br.com.personalbudget.model.enums.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,7 +22,7 @@ public class Account extends BasicRegistration {
 
     @Enumerated(EnumType.STRING)
     @Column(name="type", nullable = false)
-    private TypeTransaction typeTransaction;
+    private TransactionType typeTransaction;
 
     @ManyToOne
     @JoinColumn (name="user_id")

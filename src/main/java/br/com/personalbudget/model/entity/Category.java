@@ -3,6 +3,8 @@ package br.com.personalbudget.model.entity;
 import br.com.personalbudget.model.base.BasicRegistration;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +20,9 @@ public class Category extends BasicRegistration{
 
     @Column (name = "icon", nullable = false)
     private String icon;
+    @ManyToOne
+
+
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

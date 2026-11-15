@@ -4,6 +4,8 @@ package br.com.personalbudget.model.entity;
 
 import br.com.personalbudget.model.base.BasicRegistration;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Vendor extends BasicRegistration{
-
-    //@Column (name = "categories")
-    //@OneToMany (mappedBy = "vendor")
-    //private List<Category> categories;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

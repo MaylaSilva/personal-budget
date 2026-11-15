@@ -1,8 +1,9 @@
 package br.com.personalbudget.model.enums;
 
-public enum TypeTransaction {
+public enum TransactionType {
     PIX,
     CREDITCARD,
     DEBITCARD,
-    BANKTRANSFER
+    BANKTRANSFER,
+    CASH
 }
