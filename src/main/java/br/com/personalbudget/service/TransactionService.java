@@ -2,6 +2,7 @@ package br.com.personalbudget.service;
 
 import org.springframework.stereotype.Service;
 
+import br.com.personalbudget.dto.request.TransactionConfirmRequest;
 import br.com.personalbudget.dto.request.TransactionCreateRequest;
 import br.com.personalbudget.model.entity.Account;
 import br.com.personalbudget.model.entity.Category;
@@ -55,13 +56,26 @@ public class TransactionService {
         transaction.setCreditDebit(request.getCreditDebit());
         transaction.setTransactionType(request.getTransactionType());
 
-        transaction.setDescription(request.getDescription());
-        transaction.setObservation(request.getObservation());
         transaction.setCompetence(request.getCompetence());
         transaction.setTransactionStatus(TransactionStatus.PENDING);s
 
         return transactionRepository.save(transaction);
 
+    }
+
+    @Transactional 
+    public Transaction confirm (TransactionConfirmRequest request, UUID userId, UUID transactionId){
+        Transaction transaction = transactionRepository.findByIdAndUserId(transactionId, userId).orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+
+        if (transaction.getTransactionStatus() != TransactionStatus.PENDING){
+            throw new IllegalStateException("Apenas transações pendentes podem ser confirmadas");
+        }
+
+        transaction.setDescription(request.getDescription());
+        transaction.setObservation(request.getObservation());
+        transaction.setTransactionStatus(TransactionStatus.APPROVED);
+
+        return transactionRepository.save(transaction);
     }
     
 }
