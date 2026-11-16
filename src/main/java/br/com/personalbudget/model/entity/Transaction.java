@@ -3,10 +3,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
-import org.springframework.transaction.TransactionStatus;
-
 import br.com.personalbudget.model.base.Base;
 import br.com.personalbudget.model.enums.CreditDebit;
+import br.com.personalbudget.model.enums.TransactionStatus;
 import br.com.personalbudget.model.enums.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

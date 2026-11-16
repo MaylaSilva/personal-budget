@@ -6,8 +6,9 @@ import java.time.YearMonth;
 import java.util.UUID;
 
 import br.com.personalbudget.model.enums.CreditDebit;
-import br.com.personalbudget.model.enums.TransactionStatus;
 import br.com.personalbudget.model.enums.TransactionType;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +19,8 @@ public class TransactionCreateRequest {
     @NotNull 
     private UUID categoryId;
 
-    @NotNull 
-    private UUID vendorId;
+    @NotBlank
+    private String vendorName;
 
     @NotNull 
     private UUID accountId;
@@ -31,6 +32,14 @@ public class TransactionCreateRequest {
 
     @NotNull 
     private LocalDate purchaseDate;
+
+    @AssertTrue (message = "A competência é obrigatória para compras no cartão de crédito.")
+    public boolean isCompetenceValid(){
+        if (this.transactionType == TransactionType.CREDITCARD){
+            return this.competence!=null;
+        }
+        return true;
+    }
     private YearMonth competence;
 
     @NotNull 
@@ -38,7 +47,5 @@ public class TransactionCreateRequest {
     
     private String description;
     private String observation;
-    @NotNull 
-    private TransactionStatus transactionstatus;
 
 }
