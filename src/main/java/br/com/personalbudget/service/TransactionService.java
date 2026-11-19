@@ -29,6 +29,7 @@ public class TransactionService {
     private final VendorService vendorService;
     private final AccountRepository accountRepository;
 
+
     @Transactional(readOnly = true)
     public Transaction findTransactionById(UUID id) {
         return transactionRepository.findById(id)
@@ -70,12 +71,24 @@ public class TransactionService {
         if (transaction.getTransactionStatus() != TransactionStatus.PENDING){
             throw new IllegalStateException("Apenas transações pendentes podem ser confirmadas");
         }
+    
+        if (request.isConfirm()) {
+            transaction.setDescription(request.getDescription());
+            transaction.setObservation(request.getObservation());
+            transaction.setTransactionStatus(TransactionStatus.APPROVED);
 
-        transaction.setDescription(request.getDescription());
-        transaction.setObservation(request.getObservation());
-        transaction.setTransactionStatus(TransactionStatus.APPROVED);
+            return transactionRepository.save(transaction);
+            
+        } else {
+            transaction.setDescription(request.getDescription());
+            transaction.setObservation(request.getObservation());
+            transaction.setTransactionStatus(TransactionStatus.CANCELED);
 
-        return transactionRepository.save(transaction);
+            return transactionRepository.save(transaction);
+
+        }
+
+
     }
     
 }
