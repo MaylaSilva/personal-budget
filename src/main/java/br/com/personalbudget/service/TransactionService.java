@@ -8,6 +8,7 @@ import br.com.personalbudget.model.entity.Account;
 import br.com.personalbudget.model.entity.Category;
 import br.com.personalbudget.model.entity.Transaction;
 import br.com.personalbudget.model.entity.Vendor;
+import br.com.personalbudget.model.enums.TransactionOrigin;
 import br.com.personalbudget.model.enums.TransactionStatus;
 import br.com.personalbudget.model.enums.TransactionType;
 import br.com.personalbudget.repository.AccountRepository;
@@ -31,21 +32,21 @@ public class TransactionService {
 
 
     @Transactional(readOnly = true)
-    public Transaction findTransactionById(UUID id) {
-        return transactionRepository.findById(id)
+    public Transaction findTransactionByIdAndUser(UUID transactionId, UUID userId) {
+        return transactionRepository.findByIdAndUserId(transactionId, userId)
             .orElseThrow(() -> new RuntimeException(
                 "Transação não encontrada."
             ));
     }
-    @Transactional 
-    public Transaction create (TransactionCreateRequest request, UUID userId){
+     
+    private Transaction create (TransactionCreateRequest request, UUID userId, TransactionOrigin origin, TransactionStatus status){
         Account account = accountRepository.findByIdAndUserId(request.getAccountId(), userId).orElseThrow (() -> new RuntimeException("Conta não encontrada"));
         Category category = categoryRepository.findByIdAndUserId(request.getCategoryId(), userId).orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
-        Vendor vendor = vendorService.findOrCreate(request.getVendorName(), userId);
         YearMonth competence = (request.getTransactionType() == TransactionType.CREDITCARD)? request.getCompetence():null;
-        if (request.getTransactionType() == TransactionType.CREDITCARD && request.getCompetence()==null){
+        if (request.getTransactionType() == TransactionType.CREDITCARD && competence==null){
             throw new IllegalArgumentException("A competência é obrigatória para compras no cartão de crédito.");
         }
+        Vendor vendor = vendorService.findOrCreate(request.getVendorName(), userId);
 
         Transaction transaction = new Transaction();
         transaction.setAccount(account);
@@ -56,37 +57,37 @@ public class TransactionService {
         transaction.setAmount(request.getAmount());
         transaction.setCreditDebit(request.getCreditDebit());
         transaction.setTransactionType(request.getTransactionType());
-
-        transaction.setCompetence(request.getCompetence());
-        transaction.setTransactionStatus(TransactionStatus.PENDING);s
+        transaction.setCompetence(competence);
+        transaction.setTransactionOrigin(origin);
+        transaction.setTransactionStatus(status);
 
         return transactionRepository.save(transaction);
 
     }
+    @Transactional
+    public Transaction createStatement (TransactionCreateRequest request, UUID userId){
+        return create(request, userId, TransactionOrigin.IMPORTED, TransactionStatus.PENDING);
+    }
+
+    @Transactional
+    public Transaction createManual (TransactionCreateRequest request, UUID userId){
+        
+        return create(request, userId, TransactionOrigin.MANUAL, TransactionStatus.APPROVED);
+    }
 
     @Transactional 
     public Transaction confirm (TransactionConfirmRequest request, UUID userId, UUID transactionId){
-        Transaction transaction = transactionRepository.findByIdAndUserId(transactionId, userId).orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+        Transaction transaction = findTransactionByIdAndUser(transactionId, userId);
 
         if (transaction.getTransactionStatus() != TransactionStatus.PENDING){
             throw new IllegalStateException("Apenas transações pendentes podem ser confirmadas");
         }
     
-        if (request.isConfirm()) {
             transaction.setDescription(request.getDescription());
             transaction.setObservation(request.getObservation());
-            transaction.setTransactionStatus(TransactionStatus.APPROVED);
+            transaction.setTransactionStatus(request.isConfirm() ? TransactionStatus.APPROVED : TransactionStatus.CANCELED);
 
             return transactionRepository.save(transaction);
-            
-        } else {
-            transaction.setDescription(request.getDescription());
-            transaction.setObservation(request.getObservation());
-            transaction.setTransactionStatus(TransactionStatus.CANCELED);
-
-            return transactionRepository.save(transaction);
-
-        }
 
 
     }

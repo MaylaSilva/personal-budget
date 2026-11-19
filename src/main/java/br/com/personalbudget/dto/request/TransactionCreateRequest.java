@@ -6,6 +6,7 @@ import java.time.YearMonth;
 import java.util.UUID;
 
 import br.com.personalbudget.model.enums.CreditDebit;
+import br.com.personalbudget.model.enums.TransactionOrigin;
 import br.com.personalbudget.model.enums.TransactionType;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -45,7 +46,6 @@ public class TransactionCreateRequest {
     @NotNull 
     private BigDecimal amount;
     
-    private String description;
-    private String observation;
-
+    @NotNull
+    private TransactionOrigin transactionOrigin;
 }

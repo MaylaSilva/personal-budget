@@ -5,12 +5,14 @@ import java.time.YearMonth;
 
 import br.com.personalbudget.model.base.Base;
 import br.com.personalbudget.model.enums.CreditDebit;
+import br.com.personalbudget.model.enums.TransactionOrigin;
 import br.com.personalbudget.model.enums.TransactionStatus;
 import br.com.personalbudget.model.enums.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -64,5 +66,11 @@ public class Transaction extends Base{
     @Column (name="transactionStatus")
     private TransactionStatus transactionStatus;
     
+    @Column (name = "transactionOrigin")
+    private TransactionOrigin transactionOrigin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_transaction_id")
+    private Transaction parentTransaction;
 
 }
